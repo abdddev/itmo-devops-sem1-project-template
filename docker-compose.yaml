@@ -1,0 +1,48 @@
+services:
+  server:
+    build: .
+    env_file: .env
+    ports:
+      - "8080:8080"
+    depends_on:
+      database:
+        condition: service_healthy
+    networks:
+      - db
+    restart: unless-stopped
+
+  migrator:
+    build: .
+    env_file: .env
+    depends_on:
+      database:
+        condition: service_healthy
+    entrypoint: ["./migrator"]
+    networks:
+      - db
+    restart: "no"
+
+  database:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: ${APP_DB_NAME}
+      POSTGRES_PASSWORD: ${APP_DB_PASSWORD}
+      POSTGRES_USER: ${APP_DB_USER}
+    volumes:
+      - data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - db
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${APP_DB_USER} -d ${APP_DB_NAME}"]
+      interval: 3s
+      timeout: 3s
+      retries: 10
+      start_period: 5s
+
+volumes:
+  data:
+
+networks:
+  db:
