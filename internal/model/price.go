@@ -6,6 +6,6 @@ type Price struct {
 	ID         int64
 	Name       string
 	Category   string
-	Price      int64
+	Price      float64
 	CreateDate time.Time
 }

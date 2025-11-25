@@ -31,7 +31,7 @@ func (s *service) ProcessDownload(ctx context.Context, startDate, endDate, minPr
 	}
 
 	if minPrice != "" {
-		min, err := strconv.ParseInt(minPrice, 10, 64)
+		min, err := strconv.ParseFloat(minPrice, 64)
 		if err != nil {
 			return nil, fmt.Errorf("invalid min price format: %w", err)
 		}
@@ -42,7 +42,7 @@ func (s *service) ProcessDownload(ctx context.Context, startDate, endDate, minPr
 	}
 
 	if maxPrice != "" {
-		max, err := strconv.ParseInt(maxPrice, 10, 64)
+		max, err := strconv.ParseFloat(maxPrice, 64)
 		if err != nil {
 			return nil, fmt.Errorf("invalid max price format: %w", err)
 		}

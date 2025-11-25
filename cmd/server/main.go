@@ -69,14 +69,14 @@ func run() error {
 	defer stop()
 
 	go func() {
-		log.Printf("🚀 REST API server listening on port %s\n", port)
+		log.Printf("REST API server listening on port %s\n", port)
 		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 			log.Printf("failed to serve: %v\n", err)
 		}
 	}()
 
 	<-ctx.Done()
-	log.Println("🛑 Shutting down REST API server...")
+	log.Println("Shutting down REST API server...")
 
 	shutdownCtx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
 	defer cancel()
@@ -85,7 +85,7 @@ func run() error {
 		log.Printf("Server forced to shutdown: %v\n", err)
 	}
 
-	log.Println("✅ Server stopped")
+	log.Println("Server stopped")
 	return nil
 }
 

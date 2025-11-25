@@ -104,7 +104,7 @@ func parseCSV(r io.Reader) ([]model.Price, int64, error) {
 			continue
 		}
 
-		price, err := strconv.ParseInt(record[3], 10, 64)
+		price, err := strconv.ParseFloat(record[3], 64)
 		if err != nil || price <= 0 {
 			continue
 		}
@@ -138,7 +138,7 @@ func writeCSV(w io.Writer, prices []model.Price) error {
 			strconv.FormatInt(p.ID, 10),
 			p.Name,
 			p.Category,
-			strconv.FormatInt(p.Price, 10),
+			strconv.FormatFloat(p.Price, 'f', 2, 64),
 			p.CreateDate.Format("2006-01-02"),
 		}
 
